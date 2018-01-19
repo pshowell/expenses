@@ -11,17 +11,26 @@ app.use(bodyParser.json());
 // Serve up static assets
 app.use(express.static("client/build"));
 // Add routes, both API and view
-app.use(routes);
+// app.use(routes);
 
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
+
+
 // Connect to the Mongo DB
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/reactreadinglist",
+  process.env.MONGODB_URI || "mongodb://localhost/cashmoney",
   {
     useMongoClient: true
   }
 );
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+ console.log("good to go");
+});
+const Expense = require("./models/expense");
+require('./routes/api/expenses.js')(app);
 
 // Start the API server
 app.listen(PORT, function() {

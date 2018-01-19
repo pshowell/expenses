@@ -37,9 +37,9 @@ class Expenses extends Component {
 
   handleInputChange = event => {
     const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
+    this.setState(
+      {[name]: value}
+    )
   };
 
   handleFormSubmit = event => {
@@ -47,12 +47,14 @@ class Expenses extends Component {
     if (this.state.category && this.state.total) {
       API.saveExpense({
         category: this.state.category,
-        date: this.state.date,
         vendor: this.state.vendor,
         description: this.state.description,
         total: this.state.total
       })
-        .then(res => this.loadExpenses())
+        .then(res => {
+          // this.loadExpenses()}
+          console.log(res)
+        })
         .catch(err => console.log(err));
     }
   };
@@ -92,7 +94,7 @@ class Expenses extends Component {
               />
               <Input
                 value={this.state.total}
-                onChange={this.handleInputChange} 
+                onChange={this.handleInputChange}
                 name="total"
                 placeholder="Total (required)"
               />
